@@ -2,6 +2,6 @@
 
 #include "resource.h"
 
-HWND hideWaterMark(HWND  hwndWaterMarkLast);
+HWND hideWaterMark(HWND hwndWaterMarkLast);
 
-void syncNavbarState();
+RECT syncNavbarState(RECT rcNavbarLast);
