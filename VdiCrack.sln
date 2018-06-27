@@ -10,6 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{35F68A9B-EB0
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VdiCrackSetup", "VdiCrackSetup\VdiCrackSetup.vcxproj", "{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F16AE1E3-E278-40B7-B7A7-1D4F4BF341DF} = {F16AE1E3-E278-40B7-B7A7-1D4F4BF341DF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,6 +31,14 @@ Global
 		{F16AE1E3-E278-40B7-B7A7-1D4F4BF341DF}.Release|x64.Build.0 = Release|x64
 		{F16AE1E3-E278-40B7-B7A7-1D4F4BF341DF}.Release|x86.ActiveCfg = Release|Win32
 		{F16AE1E3-E278-40B7-B7A7-1D4F4BF341DF}.Release|x86.Build.0 = Release|Win32
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Debug|x64.ActiveCfg = Debug|x64
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Debug|x64.Build.0 = Debug|x64
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Debug|x86.ActiveCfg = Debug|Win32
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Debug|x86.Build.0 = Debug|Win32
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Release|x64.ActiveCfg = Release|x64
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Release|x64.Build.0 = Release|x64
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Release|x86.ActiveCfg = Release|Win32
+		{5AB3585E-516C-4DE4-8EBB-1AA9CB5D2147}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
