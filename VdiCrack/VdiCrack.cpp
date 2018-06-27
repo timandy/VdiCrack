@@ -4,10 +4,11 @@
 #include "stdafx.h"
 #include "VdiCrack.h"
 
-#define MUTEXT_NAME         "VDI_CRACK"
-#define CLASS_VDI           "redc_wclass"
-#define CLASS_NAVBAR        "Sangfor_VDI_Navbar_Window_Type"
-#define CLASS_WATER_MARK    "waterMark_wclass"
+#define MUTEXT_RUN          _T("VDI_CRACK_RUN")
+#define MUTEXT_SHUTDOWN     _T("VDI_CRACK_SHUTDOWN")
+#define CLASS_VDI           _T("redc_wclass")
+#define CLASS_NAVBAR        _T("Sangfor_VDI_Navbar_Window_Type")
+#define CLASS_WATER_MARK    _T("waterMark_wclass")
 #define INTERVAL            1000
 #define HIDE_OFFSET         -100000
 #define HIDE_SIZE           0
@@ -15,25 +16,38 @@
 // 入口
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-    HANDLE hMutex = CreateMutex(NULL, false, _T(MUTEXT_NAME));
-    if (GetLastError() == ERROR_ALREADY_EXISTS)
+    HANDLE hMutexRun = CreateMutex(NULL, TRUE, MUTEXT_RUN);
+    if (hMutexRun == NULL || GetLastError() == ERROR_ALREADY_EXISTS)
         return 0;
 
     HWND hwndWaterMarkLast = 0;
     RECT rcNavbarLast = {};
-    do {
+    while (allowRun())
+    {
         hwndWaterMarkLast = hideWaterMark(hwndWaterMarkLast);
         rcNavbarLast = syncNavbarState(rcNavbarLast);
         Sleep(INTERVAL);
-    } while (true);
+    }
 
-    ReleaseMutex(hMutex);
+    ReleaseMutex(hMutexRun);
+    CloseHandle(hMutexRun);
+    return 0;
 }
 
-// 去水印
+// 允许运行
+BOOL allowRun()
+{
+    HANDLE hMutexShutdown = OpenMutex(SYNCHRONIZE, FALSE, MUTEXT_SHUTDOWN);
+    if (hMutexShutdown == NULL)
+        return TRUE;
+    CloseHandle(hMutexShutdown);
+    return FALSE;
+}
+
+// 去除水印
 HWND hideWaterMark(HWND hwndWaterMarkLast)
 {
-    HWND hwndWaterMark = FindWindow(_T(CLASS_WATER_MARK), NULL);
+    HWND hwndWaterMark = FindWindow(CLASS_WATER_MARK, NULL);
     if (hwndWaterMark == 0 || hwndWaterMark == hwndWaterMarkLast)
         return hwndWaterMark;
     SetLayeredWindowAttributes(hwndWaterMark, 0, 0, LWA_COLORKEY);
@@ -44,10 +58,10 @@ HWND hideWaterMark(HWND hwndWaterMarkLast)
 // 同步导航栏状态
 RECT syncNavbarState(RECT rcNavbarLast)
 {
-    HWND hwndVdi = FindWindow(_T(CLASS_VDI), NULL);
+    HWND hwndVdi = FindWindow(CLASS_VDI, NULL);
     if (hwndVdi == 0)
         return rcNavbarLast;
-    HWND hwndNavbar = FindWindow(_T(CLASS_NAVBAR), NULL);
+    HWND hwndNavbar = FindWindow(CLASS_NAVBAR, NULL);
     if (hwndNavbar == 0)
         return rcNavbarLast;
     RECT rcNavbar;
