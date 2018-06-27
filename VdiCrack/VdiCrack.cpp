@@ -20,7 +20,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     if (hMutexRun == NULL || GetLastError() == ERROR_ALREADY_EXISTS)
         return 0;
 
-    HWND hwndWaterMarkLast = 0;
+    HWND hwndWaterMarkLast = NULL;
     RECT rcNavbarLast = {};
     while (allowRun())
     {
@@ -48,7 +48,7 @@ BOOL allowRun()
 HWND hideWaterMark(HWND hwndWaterMarkLast)
 {
     HWND hwndWaterMark = FindWindow(CLASS_WATER_MARK, NULL);
-    if (hwndWaterMark == 0 || hwndWaterMark == hwndWaterMarkLast)
+    if (hwndWaterMark == NULL || hwndWaterMark == hwndWaterMarkLast)
         return hwndWaterMark;
     SetLayeredWindowAttributes(hwndWaterMark, 0, 0, LWA_COLORKEY);
     SetWindowPos(hwndWaterMark, HWND_BOTTOM, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS);
@@ -59,10 +59,10 @@ HWND hideWaterMark(HWND hwndWaterMarkLast)
 RECT syncNavbarState(RECT rcNavbarLast)
 {
     HWND hwndVdi = FindWindow(CLASS_VDI, NULL);
-    if (hwndVdi == 0)
+    if (hwndVdi == NULL)
         return rcNavbarLast;
     HWND hwndNavbar = FindWindow(CLASS_NAVBAR, NULL);
-    if (hwndNavbar == 0)
+    if (hwndNavbar == NULL)
         return rcNavbarLast;
     RECT rcNavbar;
     GetWindowRect(hwndNavbar, &rcNavbar);
