@@ -9,6 +9,8 @@
 #define CLASS_VDI           _T("redc_wclass")
 #define CLASS_NAVBAR        _T("Sangfor_VDI_Navbar_Window_Type")
 #define CLASS_WATER_MARK    _T("waterMark_wclass")
+#define NAVBAR_WIDTH        486
+#define NAVBAR_HEIGHT       31
 #define INTERVAL            1000
 #define HIDE_OFFSET         -100000
 #define HIDE_SIZE           0
@@ -20,12 +22,16 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     if (hMutexRun == NULL || GetLastError() == ERROR_ALREADY_EXISTS)
         return 0;
 
-    HWND hwndWaterMarkLast = NULL;
-    RECT rcNavbarLast = {};
+    VDIINFO vdiInfo = {};
     while (allowRun())
     {
-        hwndWaterMarkLast = hideWaterMark(hwndWaterMarkLast);
-        rcNavbarLast = syncNavbarState(rcNavbarLast);
+        getVdiInfo(&vdiInfo);
+        if (vdiInfo.isValid())
+        {
+            hideWaterMark(&vdiInfo);
+            syncNavbarState(&vdiInfo);
+            noTopMostVdi(&vdiInfo);
+        }
         Sleep(INTERVAL);
     }
 
@@ -44,41 +50,63 @@ BOOL allowRun()
     return FALSE;
 }
 
-// 去除水印
-HWND hideWaterMark(HWND hwndWaterMarkLast)
+// 获取信息
+void getVdiInfo(LPVDIINFO lpVdiInfo)
 {
-    HWND hwndWaterMark = FindWindow(CLASS_WATER_MARK, NULL);
-    if (hwndWaterMark == NULL || hwndWaterMark == hwndWaterMarkLast)
-        return hwndWaterMark;
-    SetLayeredWindowAttributes(hwndWaterMark, 0, 0, LWA_COLORKEY);
-    SetWindowPos(hwndWaterMark, HWND_BOTTOM, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS);
-    return hwndWaterMark;
+    lpVdiInfo->hwndVdi = FindWindow(CLASS_VDI, NULL);
+    lpVdiInfo->hwndWaterMark = FindWindow(CLASS_WATER_MARK, NULL);
+    lpVdiInfo->hwndNavbar = FindWindow(CLASS_NAVBAR, NULL);
+}
+
+// 去除水印
+void hideWaterMark(LPVDIINFO lpVdiInfo)
+{
+    if (lpVdiInfo->hwndWaterMark == lpVdiInfo->hwndWaterMarkLast)
+        return;
+    SetLayeredWindowAttributes(lpVdiInfo->hwndWaterMark, 0, 0, LWA_COLORKEY);
+    SetWindowPos(lpVdiInfo->hwndWaterMark, HWND_BOTTOM, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS);
+    lpVdiInfo->hwndWaterMarkLast = lpVdiInfo->hwndWaterMark;
 }
 
 // 同步导航栏状态
-RECT syncNavbarState(RECT rcNavbarLast)
+void syncNavbarState(LPVDIINFO lpVdiInfo)
 {
-    HWND hwndVdi = FindWindow(CLASS_VDI, NULL);
-    if (hwndVdi == NULL)
-        return rcNavbarLast;
-    HWND hwndNavbar = FindWindow(CLASS_NAVBAR, NULL);
-    if (hwndNavbar == NULL)
-        return rcNavbarLast;
     RECT rcNavbar;
-    GetWindowRect(hwndNavbar, &rcNavbar);
-    if (hwndVdi == GetForegroundWindow())
+    GetWindowRect(lpVdiInfo->hwndNavbar, &rcNavbar);
+
+    // 如果为活动窗口显示导航栏, 否则隐藏导航栏
+    if (lpVdiInfo->hwndVdi == GetForegroundWindow())
     {
+        // check
+        if (lpVdiInfo->rcNavbarLast.left == lpVdiInfo->rcNavbarLast.right)
+        {
+            HMONITOR hMonitor = MonitorFromWindow(lpVdiInfo->hwndVdi, MONITOR_DEFAULTTONEAREST);
+            MONITORINFO monitorInfo;
+            monitorInfo.cbSize = sizeof(MONITORINFO);
+            GetMonitorInfo(hMonitor, &monitorInfo);
+            lpVdiInfo->rcNavbarLast.left = (monitorInfo.rcMonitor.left + monitorInfo.rcMonitor.right - NAVBAR_WIDTH) / 2;
+            lpVdiInfo->rcNavbarLast.top = monitorInfo.rcMonitor.top;
+            lpVdiInfo->rcNavbarLast.right = lpVdiInfo->rcNavbarLast.left + NAVBAR_WIDTH;
+            lpVdiInfo->rcNavbarLast.bottom = lpVdiInfo->rcNavbarLast.top + NAVBAR_HEIGHT;
+        }
         // show
         if (rcNavbar.left == rcNavbar.right)
-            SetWindowPos(hwndNavbar, HWND_TOPMOST, rcNavbarLast.left, rcNavbarLast.top, rcNavbarLast.right - rcNavbarLast.left, rcNavbarLast.bottom - rcNavbarLast.top, SWP_ASYNCWINDOWPOS);
+            SetWindowPos(lpVdiInfo->hwndNavbar, HWND_TOPMOST, lpVdiInfo->rcNavbarLast.left, lpVdiInfo->rcNavbarLast.top, lpVdiInfo->rcNavbarLast.right - lpVdiInfo->rcNavbarLast.left, lpVdiInfo->rcNavbarLast.bottom - lpVdiInfo->rcNavbarLast.top, SWP_ASYNCWINDOWPOS);
+        return;
     }
-    else
+
+    // hide
+    if (rcNavbar.right > rcNavbar.left)
     {
-        // hide
-        if (rcNavbar.right > rcNavbar.left) {
-            SetWindowPos(hwndNavbar, HWND_BOTTOM, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS);
-            return rcNavbar;
-        }
+        SetWindowPos(lpVdiInfo->hwndNavbar, HWND_BOTTOM, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS);
+        lpVdiInfo->rcNavbarLast = rcNavbar;
     }
-    return rcNavbarLast;
+}
+
+// 不置顶
+void noTopMostVdi(LPVDIINFO lpVdiInfo)
+{
+    BOOL topMost = GetWindowLong(lpVdiInfo->hwndVdi, GWL_EXSTYLE) & WS_EX_TOPMOST;
+    if (topMost)
+        SetWindowPos(lpVdiInfo->hwndVdi, HWND_NOTOPMOST, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS | SWP_NOMOVE | SWP_NOSIZE);
 }
