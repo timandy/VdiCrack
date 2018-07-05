@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
+#include "resource.h"
 #include "VdiCrackSetup.h"
-#include <ostream>
 
 #define MUTEXT_RUN          _T("VDI_CRACK_RUN")
 #define MUTEXT_SHUTDOWN     _T("VDI_CRACK_SHUTDOWN")
