@@ -6,9 +6,6 @@
 
 #define MUTEXT_RUN          _T("VDI_CRACK_RUN")
 #define MUTEXT_SHUTDOWN     _T("VDI_CRACK_SHUTDOWN")
-#define CLASS_VDI           _T("redc_wclass")
-#define CLASS_NAVBAR        _T("Sangfor_VDI_Navbar_Window_Type")
-#define CLASS_WATER_MARK    _T("waterMark_wclass")
 #define NAVBAR_WIDTH        486
 #define NAVBAR_HEIGHT       31
 #define INTERVAL            1000
@@ -25,8 +22,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     VDIINFO vdiInfo = {};
     while (allowRun())
     {
-        getVdiInfo(&vdiInfo);
-        if (vdiInfo.isValid())
+        vdiInfo.refresh();
+        if (vdiInfo.isRunning())
         {
             hideWaterMark(&vdiInfo);
             syncNavbarState(&vdiInfo);
@@ -50,14 +47,6 @@ BOOL allowRun()
     return FALSE;
 }
 
-// 获取信息
-void getVdiInfo(LPVDIINFO lpVdiInfo)
-{
-    lpVdiInfo->hwndVdi = FindWindow(CLASS_VDI, NULL);
-    lpVdiInfo->hwndWaterMark = FindWindow(CLASS_WATER_MARK, NULL);
-    lpVdiInfo->hwndNavbar = FindWindow(CLASS_NAVBAR, NULL);
-}
-
 // 去除水印
 void hideWaterMark(LPVDIINFO lpVdiInfo)
 {
@@ -75,7 +64,7 @@ void syncNavbarState(LPVDIINFO lpVdiInfo)
     GetWindowRect(lpVdiInfo->hwndNavbar, &rcNavbar);
 
     // 如果为活动窗口显示导航栏, 否则隐藏导航栏
-    if (lpVdiInfo->hwndVdi == GetForegroundWindow())
+    if (lpVdiInfo->bVdiActive)
     {
         // check
         if (lpVdiInfo->rcNavbarLast.left == lpVdiInfo->rcNavbarLast.right)
@@ -106,7 +95,6 @@ void syncNavbarState(LPVDIINFO lpVdiInfo)
 // 不置顶
 void noTopMostVdi(LPVDIINFO lpVdiInfo)
 {
-    BOOL topMost = GetWindowLong(lpVdiInfo->hwndVdi, GWL_EXSTYLE) & WS_EX_TOPMOST;
-    if (topMost)
+    if (lpVdiInfo->bVdiTopMost)
         SetWindowPos(lpVdiInfo->hwndVdi, HWND_NOTOPMOST, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS | SWP_NOMOVE | SWP_NOSIZE);
 }
