@@ -8,4 +8,4 @@ void hideWaterMark(LPVDIINFO lpVdiInfo);
 
 void syncNavbarState(LPVDIINFO lpVdiInfo);
 
-void noTopMostVdi(LPVDIINFO lpVdiInfo);
+void syncVdiState(LPVDIINFO lpVdiInfo);

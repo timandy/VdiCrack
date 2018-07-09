@@ -27,7 +27,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         {
             hideWaterMark(&vdiInfo);
             syncNavbarState(&vdiInfo);
-            noTopMostVdi(&vdiInfo);
+            syncVdiState(&vdiInfo);
         }
         Sleep(INTERVAL);
     }
@@ -92,8 +92,8 @@ void syncNavbarState(LPVDIINFO lpVdiInfo)
     }
 }
 
-// 不置顶
-void noTopMostVdi(LPVDIINFO lpVdiInfo)
+// 同步主窗口状态
+void syncVdiState(LPVDIINFO lpVdiInfo)
 {
     if (lpVdiInfo->bVdiTopMost)
         SetWindowPos(lpVdiInfo->hwndVdi, HWND_NOTOPMOST, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS | SWP_NOMOVE | SWP_NOSIZE);
