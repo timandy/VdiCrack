@@ -5,14 +5,6 @@
 #include "resource.h"
 #include "VdiCrackSetup.h"
 
-#define MUTEXT_RUN          _T("VDI_CRACK_RUN")
-#define MUTEXT_SHUTDOWN     _T("VDI_CRACK_SHUTDOWN")
-#define EXE_OPERATION       _T("open")
-#define EXE_PATH            _T("C:\\Program Files\\VdiCrack\\VdiCrack.exe")
-#define REG_NAME            _T("VdiCrack")
-#define REG_RUN             _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")
-#define INTERVAL            1000
-
 // 入口
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -20,19 +12,19 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     if (hMutexShutdown == NULL || GetLastError() == ERROR_ALREADY_EXISTS)
         return 0;
 
-    waitCrackEnd();
-    releaseFile();
-    setAutoRun();
+    WaitCrackEnd();
+    ReleaseFile();
+    SetAutoRun();
 
     ReleaseMutex(hMutexShutdown);
     CloseHandle(hMutexShutdown);
 
-    run();
+    RunCrack();
     return 0;
 }
 
 // 等待进程结束
-void waitCrackEnd()
+void WaitCrackEnd()
 {
     while (TRUE)
     {
@@ -40,12 +32,12 @@ void waitCrackEnd()
         if (hMutexRun == NULL)
             return;
         CloseHandle(hMutexRun);
-        Sleep(INTERVAL);
+        Sleep(WAIT_INTERVAL);
     }
 }
 
 // 释放文件
-void releaseFile()
+void ReleaseFile()
 {
     //创建文件夹
     TCHAR szDestPath[MAX_PATH];
@@ -69,7 +61,7 @@ void releaseFile()
 }
 
 // 开机启动
-void setAutoRun()
+void SetAutoRun()
 {
     HKEY hKey;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, REG_RUN, 0, KEY_ALL_ACCESS, &hKey) != ERROR_SUCCESS)
@@ -79,7 +71,7 @@ void setAutoRun()
 }
 
 // 启动
-void run()
+void RunCrack()
 {
     ShellExecute(NULL, EXE_OPERATION, EXE_PATH, NULL, NULL, SW_NORMAL);
 }
