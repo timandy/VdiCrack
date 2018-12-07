@@ -9,7 +9,7 @@ void VdiWnd::SyncNavbarState()
     GetWindowRect(this->hwndNavbar, &rcNavbar);
 
     // 如果为活动窗口显示导航栏, 否则隐藏导航栏
-    if (IsWindowVisible(this->hwndVdi) && GetActiveWindow() == this->hwndVdi)
+    if (IsWindowVisible(this->hwndVdi) && GetForegroundWindow() == this->hwndVdi)
     {
         // check
         if (this->rcNavbarLast.left == this->rcNavbarLast.right)
