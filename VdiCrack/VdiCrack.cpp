@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "VdiCrack.h"
-#include "VdiManager.h"
+#include "MsgHandler.h"
 
 // 入口
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -13,11 +13,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         return 0;
 
     MSG msg;
-    VdiManager vdiManager;
+    MsgHandler msgHandler;
     while (GetMessage(&msg, NULL, 0, 0) && AllowRun())
     {
         TranslateMessage(&msg);
-        vdiManager.ProcMessage(&msg);
+        msgHandler.HandleMessage(&msg);
     }
 
     ReleaseMutex(hMutexRun);

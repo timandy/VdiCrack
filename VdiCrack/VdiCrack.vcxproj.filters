@@ -1,58 +1,92 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Config">
+      <UniqueIdentifier>{db29c6fb-92c4-4e38-8034-fac0f905ff60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Main">
+      <UniqueIdentifier>{28033886-2b64-41f4-95f4-6ae5884b2d31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件">
+    <Filter Include="StdAfx">
+      <UniqueIdentifier>{83eadfb9-704a-491a-9d9c-52c0359f351d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resouces">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{28f2860a-e69d-46df-b641-035a14339473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\KbdHook">
+      <UniqueIdentifier>{1ba59d9e-4407-42a9-88f6-0c6743485652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\WindowUtils">
+      <UniqueIdentifier>{307f3f4c-ea45-4a1f-aed1-c08875453708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\VdiWnd">
+      <UniqueIdentifier>{848f4f9e-6df4-4eed-9734-556f6a8f07c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KbdHook.h">
+      <Filter>Utils\KbdHook</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Config</Filter>
+    </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>头文件</Filter>
+      <Filter>StdAfx</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
+      <Filter>StdAfx</Filter>
     </ClInclude>
     <ClInclude Include="VdiCrack.h">
-      <Filter>头文件</Filter>
+      <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="VdiManager.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="resource.h">
+      <Filter>Resouces</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowUtils.h">
+      <Filter>Utils\WindowUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="VdiWnd.h">
+      <Filter>Utils\VdiWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgHandler.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KbdHook.cpp">
+      <Filter>Utils\KbdHook</Filter>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
+      <Filter>StdAfx</Filter>
     </ClCompile>
     <ClCompile Include="VdiCrack.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="VdiManager.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="WindowUtils.cpp">
+      <Filter>Utils\WindowUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="VdiWnd.cpp">
+      <Filter>Utils\VdiWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="MsgHandler.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VdiCrack.rc">
-      <Filter>资源文件</Filter>
+      <Filter>Resouces</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
-      <Filter>资源文件</Filter>
+      <Filter>Resouces</Filter>
     </Image>
     <Image Include="VdiCrack.ico">
-      <Filter>资源文件</Filter>
+      <Filter>Resouces</Filter>
     </Image>
   </ItemGroup>
 </Project>
