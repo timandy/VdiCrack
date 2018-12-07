@@ -48,7 +48,7 @@ void VdiWnd::SetRunning(BOOL bRunning)
         return;
     }
     KbdHook::Install();
-    WindowUtils::HideWindow(this->hwndVdi);
+    WindowUtils::HideWindow(this->hwndWaterMark);
 }
 
 VdiWnd::VdiWnd()
