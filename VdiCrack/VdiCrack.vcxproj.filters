@@ -27,7 +27,7 @@
     <ClInclude Include="VdiCrack.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="VDIINFO.h">
+    <ClInclude Include="VdiManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -36,6 +36,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="VdiCrack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="VdiManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

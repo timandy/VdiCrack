@@ -1,11 +1,8 @@
 #pragma once
 
-#include "VDIINFO.h"
+#include "stdafx.h"
 
-BOOL allowRun();
+#define MUTEXT_RUN          _T("VDI_CRACK_RUN")
+#define MUTEXT_SHUTDOWN     _T("VDI_CRACK_SHUTDOWN")
 
-void hideWaterMark(LPVDIINFO lpVdiInfo);
-
-void syncNavbarState(LPVDIINFO lpVdiInfo);
-
-void syncVdiState(LPVDIINFO lpVdiInfo);
+BOOL AllowRun();
