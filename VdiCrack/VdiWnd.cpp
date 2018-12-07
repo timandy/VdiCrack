@@ -8,7 +8,7 @@ void VdiWnd::SyncNavbarState()
     RECT rcNavbar;
     GetWindowRect(this->hwndNavbar, &rcNavbar);
 
-    // å¦‚æžœä¸ºæ´»åŠ¨çª—å£æ˜¾ç¤ºå¯¼èˆªæ , å¦åˆ™éšè—å¯¼èˆªæ 
+    // Èç¹ûÎª»î¶¯´°¿ÚÏÔÊ¾µ¼º½À¸, ·ñÔòÒþ²Øµ¼º½À¸
     if (IsWindowVisible(this->hwndVdi) && GetActiveWindow() == this->hwndVdi)
     {
         // check

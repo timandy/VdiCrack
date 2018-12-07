@@ -4,9 +4,9 @@
 class MsgHandler
 {
 private:
-    UINT_PTR    nSyncEventID;       //åŒæ­¥å®šæ—¶å™¨
-    UINT_PTR    nWakeEventID;       //å”¤é†’å®šæ—¶å™¨
-    VdiWnd      *pVdiWnd;           //Vdi çª—å£ç®¡ç†å™¨
+    UINT_PTR    nSyncEventID;       //Í¬²½¶¨Ê±Æ÷
+    UINT_PTR    nWakeEventID;       //»½ĞÑ¶¨Ê±Æ÷
+    VdiWnd      *pVdiWnd;           //Vdi ´°¿Ú¹ÜÀíÆ÷
 public:
     MsgHandler();
     ~MsgHandler();

@@ -35,9 +35,9 @@ void WindowUtils::SendKey(HWND hwnd, UINT vKey)
     dwKeyData |= dwScanCode << 16;
     dwKeyData |= 0 << 24;
     dwKeyData |= 1 << 29;
-    //æŒ‰ä¸‹
+    //°´ÏÂ
     PostMessage(hwnd, WM_KEYDOWN, vKey, dwKeyData);
-    //å¼¹èµ·
+    //µ¯Æð
     dwKeyData |= 3 << 30;
     PostMessage(hwnd, WM_KEYUP, vKey, dwKeyData);
 }

@@ -3,14 +3,14 @@
 
 HHOOK KbdHook::hKeyboardHook = NULL;
 
-// 閲嶆柊瀹夎閿洏閽╁瓙
+// 重新安装键盘钩子
 void KbdHook::Install()
 {
     Uninstall();
     hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, &LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 }
 
-// 鍗歌浇閿洏閽╁瓙
+// 卸载键盘钩子
 void KbdHook::Uninstall()
 {
     if (hKeyboardHook != NULL)
@@ -20,7 +20,7 @@ void KbdHook::Uninstall()
     }
 }
 
-// 閽╁瓙鍥炶皟
+// 钩子回调
 LRESULT KbdHook::LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     if (nCode >= HC_ACTION && wParam == WM_SYSKEYDOWN)

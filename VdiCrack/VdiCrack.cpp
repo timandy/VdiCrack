@@ -1,11 +1,11 @@
-// VdiCrack.cpp: å®šä¹‰åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
+// VdiCrack.cpp: ¶¨ÒåÓ¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
 //
 
 #include "stdafx.h"
 #include "VdiCrack.h"
 #include "MsgHandler.h"
 
-// å…¥å£
+// Èë¿Ú
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
     HANDLE hMutexRun = CreateMutex(NULL, TRUE, MUTEXT_RUN);
@@ -25,7 +25,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     return 0;
 }
 
-// å…è®¸è¿è¡Œ
+// ÔÊĞíÔËĞĞ
 BOOL AllowRun()
 {
     HANDLE hMutexShutdown = OpenMutex(SYNCHRONIZE, FALSE, MUTEXT_SHUTDOWN);

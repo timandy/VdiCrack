@@ -3,11 +3,11 @@
 class VdiWnd
 {
 private:
-    HWND        hwndVdi;            //Vdi ä¸»çª—å£å¥æŸ„
-    HWND        hwndWaterMark;      //æ°´å°çª—å£å¥æŸ„
-    HWND        hwndNavbar;         //å¯¼èˆªæ å¥æŸ„
-    BOOL        bRunning;           //Vdi æ˜¯å¦åœ¨è¿è¡Œ
-    RECT        rcNavbarLast;       //ä¸Šæ¬¡å¯¼èˆªæ ä½ç½®å°ºå¯¸
+    HWND        hwndVdi;            //Vdi Ö÷´°¿Ú¾ä±ú
+    HWND        hwndWaterMark;      //Ë®Ó¡´°¿Ú¾ä±ú
+    HWND        hwndNavbar;         //µ¼º½À¸¾ä±ú
+    BOOL        bRunning;           //Vdi ÊÇ·ñÔÚÔËĞĞ
+    RECT        rcNavbarLast;       //ÉÏ´Îµ¼º½À¸Î»ÖÃ³ß´ç
     void SyncNavbarState();
     void SetRunning(BOOL bRunning);
 public:

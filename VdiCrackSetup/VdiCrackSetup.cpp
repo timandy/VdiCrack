@@ -1,11 +1,11 @@
-// VdiCrackSetup.cpp: å®šä¹‰åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
+// VdiCrackSetup.cpp: ¶¨ÒåÓ¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
 //
 
 #include "stdafx.h"
 #include "resource.h"
 #include "VdiCrackSetup.h"
 
-// å…¥å£
+// Èë¿Ú
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
     HANDLE hMutexShutdown = CreateMutex(NULL, TRUE, MUTEXT_SHUTDOWN);
@@ -23,7 +23,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     return 0;
 }
 
-// ç­‰å¾…è¿›ç¨‹ç»“æŸ
+// µÈ´ı½ø³Ì½áÊø
 void WaitCrackEnd()
 {
     while (TRUE)
@@ -36,31 +36,31 @@ void WaitCrackEnd()
     }
 }
 
-// é‡Šæ”¾æ–‡ä»¶
+// ÊÍ·ÅÎÄ¼ş
 void ReleaseFile()
 {
-    //åˆ›å»ºæ–‡ä»¶å¤¹
+    //´´½¨ÎÄ¼ş¼Ğ
     TCHAR szDestPath[MAX_PATH];
     memcpy(szDestPath, EXE_PATH, MAX_PATH);
     (_tcsrchr(szDestPath, _T('\\')))[1] = 0;
     CreateDirectory(szDestPath, NULL);
 
-    //é‡Šæ”¾æ–‡ä»¶
-    HRSRC hResID = FindResource(NULL, MAKEINTRESOURCE(IDR_VDICRACK), RT_RCDATA);//æŸ¥æ‰¾èµ„æº
-    HGLOBAL hRes = LoadResource(NULL, hResID);//åŠ è½½èµ„æº
-    LPVOID pRes = LockResource(hRes);//é”å®šèµ„æº
-    if (pRes == NULL)//é”å®šå¤±è´¥
+    //ÊÍ·ÅÎÄ¼ş
+    HRSRC hResID = FindResource(NULL, MAKEINTRESOURCE(IDR_VDICRACK), RT_RCDATA);//²éÕÒ×ÊÔ´
+    HGLOBAL hRes = LoadResource(NULL, hResID);//¼ÓÔØ×ÊÔ´
+    LPVOID pRes = LockResource(hRes);//Ëø¶¨×ÊÔ´
+    if (pRes == NULL)//Ëø¶¨Ê§°Ü
         return;
-    DWORD dwResSize = SizeofResource(NULL, hResID);//å¾—åˆ°å¾…é‡Šæ”¾èµ„æºæ–‡ä»¶å¤§å°
-    HANDLE hResFile = CreateFile(EXE_PATH, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);//åˆ›å»ºæ–‡ä»¶
+    DWORD dwResSize = SizeofResource(NULL, hResID);//µÃµ½´ıÊÍ·Å×ÊÔ´ÎÄ¼ş´óĞ¡
+    HANDLE hResFile = CreateFile(EXE_PATH, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);//´´½¨ÎÄ¼ş
     if (hResFile == INVALID_HANDLE_VALUE)
         return;
-    DWORD dwWritten = 0;//å†™å…¥æ–‡ä»¶çš„å¤§å°
-    WriteFile(hResFile, pRes, dwResSize, &dwWritten, NULL);//å†™å…¥æ–‡ä»¶
-    CloseHandle(hResFile);//å…³é—­æ–‡ä»¶å¥æŸ„
+    DWORD dwWritten = 0;//Ğ´ÈëÎÄ¼şµÄ´óĞ¡
+    WriteFile(hResFile, pRes, dwResSize, &dwWritten, NULL);//Ğ´ÈëÎÄ¼ş
+    CloseHandle(hResFile);//¹Ø±ÕÎÄ¼ş¾ä±ú
 }
 
-// å¼€æœºå¯åŠ¨
+// ¿ª»úÆô¶¯
 void SetAutoRun()
 {
     HKEY hKey;
@@ -70,7 +70,7 @@ void SetAutoRun()
     RegCloseKey(hKey);
 }
 
-// å¯åŠ¨
+// Æô¶¯
 void RunCrack()
 {
     ShellExecute(NULL, EXE_OPERATION, EXE_PATH, NULL, NULL, SW_NORMAL);
