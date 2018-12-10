@@ -25,7 +25,7 @@ void WindowUtils::NoTopMost(HWND hwnd)
 {
     BOOL bTopMost = GetWindowLong(hwnd, GWL_EXSTYLE) & WS_EX_TOPMOST;
     if (bTopMost)
-        SetWindowPos(hwnd, HWND_NOTOPMOST, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS | SWP_NOMOVE | SWP_NOSIZE);
+        SetWindowPos(hwnd, HWND_NOTOPMOST, HIDE_OFFSET, HIDE_OFFSET, HIDE_SIZE, HIDE_SIZE, SWP_ASYNCWINDOWPOS | SWP_NOSIZE | SWP_NOMOVE);
 }
 
 void WindowUtils::SendKey(HWND hwnd, UINT vKey)
