@@ -52,12 +52,14 @@ void ReleaseFile()
     if (pRes == NULL)//锁定失败
         return;
     DWORD dwResSize = SizeofResource(NULL, hResID);//得到待释放资源文件大小
+    SetFileAttributes(EXE_PATH, FILE_ATTRIBUTE_NORMAL);//设置文件属性正常
     HANDLE hResFile = CreateFile(EXE_PATH, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);//创建文件
     if (hResFile == INVALID_HANDLE_VALUE)
         return;
     DWORD dwWritten = 0;//写入文件的大小
     WriteFile(hResFile, pRes, dwResSize, &dwWritten, NULL);//写入文件
     CloseHandle(hResFile);//关闭文件句柄
+    SetFileAttributes(EXE_PATH, FILE_ATTRIBUTE_READONLY);//设置文件属性只读
 }
 
 // 开机启动
