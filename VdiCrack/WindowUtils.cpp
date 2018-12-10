@@ -11,8 +11,7 @@ void WindowUtils::SwitchVisible(HWND hwnd)
 {
     if (IsWindowVisible(hwnd))
     {
-        ShowWindow(hwnd, SW_MINIMIZE);
-        ShowWindow(hwnd, SW_HIDE);
+        ShowWindowAsync(hwnd, SW_HIDE);
     }
     else
     {
