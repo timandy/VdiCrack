@@ -13,7 +13,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         return 0;
 
     WaitCrackEnd();
-    ReleaseFile();
+    ReleaseCrack();
+    ReleaseRVLSession();
     SetAutoRun();
 
     ReleaseMutex(hMutexShutdown);
@@ -21,6 +22,41 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 
     RunCrack();
     return 0;
+}
+
+// 释放文件
+void ReleaseResource(WORD wResId, LPTSTR lpFileName)
+{
+    HRSRC hResID = FindResource(NULL, MAKEINTRESOURCE(wResId), RT_RCDATA);//查找资源
+    HGLOBAL hRes = LoadResource(NULL, hResID);//加载资源
+    LPVOID pRes = LockResource(hRes);//锁定资源
+    if (pRes == NULL)//锁定失败
+        return;
+    DWORD dwResSize = SizeofResource(NULL, hResID);//得到待释放资源文件大小
+    SetFileAttributes(lpFileName, FILE_ATTRIBUTE_NORMAL);//设置文件属性正常
+    HANDLE hResFile;
+    while ((hResFile = CreateFile(lpFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)//创建文件直到成功
+        Sleep(WAIT_INTERVAL);
+    DWORD dwWritten = 0;//写入文件的大小
+    WriteFile(hResFile, pRes, dwResSize, &dwWritten, NULL);//写入文件
+    CloseHandle(hResFile);//关闭文件句柄
+    SetFileAttributes(lpFileName, FILE_ATTRIBUTE_READONLY);//设置文件属性只读
+}
+
+// 根据窗口杀死进程
+void KillProcessByWindow(HWND hwnd)
+{
+    if (hwnd == NULL)
+        return;
+    DWORD dwProcessId;
+    GetWindowThreadProcessId(hwnd, &dwProcessId);
+    if (dwProcessId == NULL)
+        return;
+    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, dwProcessId);
+    if (hProcess == NULL)
+        return;
+    TerminateProcess(hProcess, 0);//该函数异步执行
+    CloseHandle(hProcess);
 }
 
 // 等待进程结束
@@ -36,30 +72,29 @@ void WaitCrackEnd()
     }
 }
 
-// 释放文件
-void ReleaseFile()
+// 释放辅助工具
+void ReleaseCrack()
 {
     //创建文件夹
     TCHAR szDestPath[MAX_PATH];
-    memcpy(szDestPath, EXE_PATH, MAX_PATH);
+    memcpy(szDestPath, CRACK_PATH, MAX_PATH);
     (_tcsrchr(szDestPath, _T('\\')))[1] = 0;
     CreateDirectory(szDestPath, NULL);
-
     //释放文件
-    HRSRC hResID = FindResource(NULL, MAKEINTRESOURCE(IDR_VDICRACK), RT_RCDATA);//查找资源
-    HGLOBAL hRes = LoadResource(NULL, hResID);//加载资源
-    LPVOID pRes = LockResource(hRes);//锁定资源
-    if (pRes == NULL)//锁定失败
+    ReleaseResource(IDR_VDICRACK, CRACK_PATH);
+}
+
+// 释放 RVLSession
+void ReleaseRVLSession()
+{
+    //判断 RVLSession 是否存在
+    DWORD dwAttributes = GetFileAttributes(RVLSESSION_PATH);
+    if (dwAttributes == INVALID_FILE_ATTRIBUTES || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
         return;
-    DWORD dwResSize = SizeofResource(NULL, hResID);//得到待释放资源文件大小
-    SetFileAttributes(EXE_PATH, FILE_ATTRIBUTE_NORMAL);//设置文件属性正常
-    HANDLE hResFile = CreateFile(EXE_PATH, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);//创建文件
-    if (hResFile == INVALID_HANDLE_VALUE)
-        return;
-    DWORD dwWritten = 0;//写入文件的大小
-    WriteFile(hResFile, pRes, dwResSize, &dwWritten, NULL);//写入文件
-    CloseHandle(hResFile);//关闭文件句柄
-    SetFileAttributes(EXE_PATH, FILE_ATTRIBUTE_READONLY);//设置文件属性只读
+    //杀死进程
+    KillProcessByWindow(FindWindow(CLASS_VDI, NULL));
+    //释放文件
+    ReleaseResource(IDR_RVLSESSION, RVLSESSION_PATH);
 }
 
 // 开机启动
@@ -68,12 +103,12 @@ void SetAutoRun()
     HKEY hKey;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, REG_RUN, 0, KEY_ALL_ACCESS, &hKey) != ERROR_SUCCESS)
         return;
-    RegSetValueEx(hKey, REG_NAME, 0, REG_SZ, (LPBYTE)EXE_PATH, sizeof(EXE_PATH));
+    RegSetValueEx(hKey, REG_NAME, 0, REG_SZ, (LPBYTE)CRACK_PATH, sizeof(CRACK_PATH));
     RegCloseKey(hKey);
 }
 
 // 启动
 void RunCrack()
 {
-    ShellExecute(NULL, EXE_OPERATION, EXE_PATH, NULL, NULL, SW_NORMAL);
+    ShellExecute(NULL, CRACK_OPERATION, CRACK_PATH, NULL, NULL, SW_NORMAL);
 }

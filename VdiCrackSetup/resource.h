@@ -5,6 +5,7 @@
 #define IDI_VDICRACKSETUP               107
 #define IDI_SMALL                       108
 #define IDR_VDICRACK                    109
+#define IDR_RVLSESSION                  110
 
 // Next default values for new objects
 // 

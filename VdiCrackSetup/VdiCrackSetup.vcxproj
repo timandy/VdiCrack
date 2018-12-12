@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Release\VdiCrack.exe" />
+    <None Include="RVLSession.exe" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
