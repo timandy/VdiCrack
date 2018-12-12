@@ -28,7 +28,7 @@ LRESULT KbdHook::LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
         LPKBDLLHOOKSTRUCT pKbs = (LPKBDLLHOOKSTRUCT)lParam;
         if (pKbs->vkCode == BOSS_HOTKEY && (pKbs->flags & BOSS_HOTKEY_MOD) != 0)
         {
-            PostMessage(NULL, BOSS_HOTKEY_MSG, NULL, NULL);
+            PostMessage(NULL, BOSS_HOTKEY_MSG, 0, 0);
             return FALSE;
         }
     }
