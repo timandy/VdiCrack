@@ -112,7 +112,8 @@ END
 //
 
 IDR_VDICRACK            RCDATA                  "..\\Release\\VdiCrack.exe"
-IDR_RVLSESSION          RCDATA                  ".\RVLSession.exe"
+
+IDR_RVLSESSION          RCDATA                  ".\\RVLSession.exe"
 
 #endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////
