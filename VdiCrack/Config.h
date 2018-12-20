@@ -14,4 +14,5 @@
 #define WAKE_KEY                    VK_F13
 #define BOSS_HOTKEY_MSG             WM_USER + 1
 #define BOSS_HOTKEY_MOD             LLKHF_ALTDOWN
+#define BOSS_HOTKEY_VK              VK_MENU
 #define BOSS_HOTKEY                 'Q'
