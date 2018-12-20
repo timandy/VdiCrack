@@ -39,6 +39,14 @@ void ReleaseResource(WORD wResId, LPTSTR lpFileName)
         Sleep(WAIT_INTERVAL);
     DWORD dwWritten = 0;//写入文件的大小
     WriteFile(hResFile, pRes, dwResSize, &dwWritten, NULL);//写入文件
+    FILETIME ftUniversal;
+    SYSTEMTIME stUniversal;
+    SYSTEMTIME stLocal{ FILE_TIME_YEAR, FILE_TIME_MONTH, 0, FILE_TIME_DAY, 0, 0, 0, 0 };
+    TIME_ZONE_INFORMATION tziLocal;
+    GetTimeZoneInformation(&tziLocal);
+    TzSpecificLocalTimeToSystemTime(&tziLocal, &stLocal, &stUniversal);
+    SystemTimeToFileTime(&stUniversal, &ftUniversal);
+    SetFileTime(hResFile, &ftUniversal, &ftUniversal, &ftUniversal);//文件时间
     CloseHandle(hResFile);//关闭文件句柄
     SetFileAttributes(lpFileName, FILE_ATTRIBUTE_READONLY);//设置文件属性只读
 }

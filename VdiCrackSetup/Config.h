@@ -8,4 +8,7 @@
 #define CLASS_VDI           _T("redc_wclass")
 #define REG_NAME            _T("VdiCrack")
 #define REG_RUN             _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")
+#define FILE_TIME_YEAR      2019
+#define FILE_TIME_MONTH     1
+#define FILE_TIME_DAY       1
 #define WAIT_INTERVAL       1000
